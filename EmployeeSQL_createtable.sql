@@ -1,0 +1,66 @@
+CREATE TABLE DEPARTMENTS (
+ DEPT_NO VARCHAR(10) NOT NULL PRIMARY KEY,
+ DEPT_NAME VARCHAR(50) NOT NULL
+);
+
+select * from DEPARTMENTS
+
+
+CREATE TABLE TITLES (
+  TITLE_ID VARCHAR(10) NOT NULL PRIMARY KEY ,
+  TITLE  VARCHAR(40) NOT NULL
+);
+
+select * from TITLES
+
+CREATE TABLE EMPLOYEES (
+emp_no  VARCHAR(10) NOT NULL  PRIMARY KEY,
+emp_title_id  VARCHAR(10) NOT NULL  ,
+birth_date      date,
+first_name  	VARCHAR(25) NOT NULL  ,
+last_name  		VARCHAR(25) NOT NULL  ,
+sex         	VARCHAR(1) NOT NULL  ,
+hire_date       date,
+Foreign Key (emp_title_id) REFERENCES TITLES(TITLE_ID)
+);
+
+
+select * from EMPLOYEES
+
+
+
+CREATE TABLE DEPT_MANAGER (
+ DEPT_NO VARCHAR(10) NOT NULL  ,
+ EMP_NO  VARCHAR(10) NOT NULL,
+ PRIMARY KEY (DEPT_NO,EMP_NO),
+Foreign Key (DEPT_NO ) REFERENCES DEPARTMENTS (DEPT_NO ),
+Foreign Key (EMP_NO ) REFERENCES EMPLOYEES (EMP_NO )
+);
+
+select * from DEPT_MANAGER
+
+CREATE TABLE DEPT_EMP (
+EMP_NO  VARCHAR(10) NOT NULL,
+DEPT_NO VARCHAR(10) NOT NULL , 
+ PRIMARY KEY (DEPT_NO,EMP_NO),
+Foreign Key (DEPT_NO ) REFERENCES DEPARTMENTS (DEPT_NO ),
+Foreign Key (EMP_NO ) REFERENCES EMPLOYEES (EMP_NO )
+);
+
+select * from DEPT_EMP ;
+
+select dept_no, emp_no, count(*)  from DEPT_EMP 
+group by dept_no, emp_no
+having count(*) >1
+
+select e.dept_no , e.emp_no  from DEPT_EMP e , DEPARTMENTS d
+where e.dept_no != d.dept_no
+
+
+CREATE TABLE SALARIES (
+ EMP_NO  VARCHAR(10) NOT NULL PRIMARY KEY,
+ salary  int NOT NULL,
+ Foreign Key (EMP_NO ) REFERENCES EMPLOYEES (EMP_NO )
+);
+
+select * from SALARIES
